@@ -1,0 +1,14 @@
+[project]
+name = "sdwi2iextender"
+version = "0.0.9"
+authors = [
+    { name="Plads" },
+]
+description = "Stable Diffusion Webui Img2img Tab Extender"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
