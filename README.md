@@ -44,9 +44,9 @@ There are a few methods that can be overriden, let's look at them one by one.
 
 ### tab
 The `tab` method is called with the Gradio context of the img2img tab group.  
-This means that you can create a gradio tab in it, and it will be rendered with the other img2img operation modes:  
+This means that you can create a gradio tab in it, and it will be rendered with the other img2img operation tabs:  
 ```py
-class MyTab(OperationMode):
+class MyOperationTab(OperationMode):
     def tab(self, ):
         self.tab = gr.TabItem(label='My new tab')
 

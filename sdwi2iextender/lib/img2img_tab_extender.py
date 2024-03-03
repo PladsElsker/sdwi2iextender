@@ -82,11 +82,11 @@ class Img2imgTabExtender:
 
             cls.register_custom_tab_data(tab_index, tab_class, custom_tab_object)
 
-            with GradioContextSwitch(cls.inpaint_params_block):
-                img2img_tabs = cls._get_img2img_tabs()
-                cls.setup_navigation_events(img2img_tabs)
-                for tab_data in cls.tab_data_list:
-                    tab_data.tab_object.gradio_events(img2img_tabs)
+        with GradioContextSwitch(cls.inpaint_params_block):
+            img2img_tabs = cls._get_img2img_tabs()
+            cls.setup_navigation_events(img2img_tabs)
+            for tab_data in cls.tab_data_list:
+                tab_data.tab_object.gradio_events(img2img_tabs)
 
     @classmethod
     def register_default_amount_of_tabs(cls):
