@@ -66,7 +66,6 @@ class Img2imgTabExtender:
                 tab_class._registered_elem_ids[elem_id] = component
 
     @classmethod
-    @one_time_callable
     def create_custom_tabs(cls):
         cls.register_default_amount_of_tabs()
         cls.tab_data_list = []
