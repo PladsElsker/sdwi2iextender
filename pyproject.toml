@@ -1,6 +1,6 @@
 [project]
 name = "sdwi2iextender"
-version = "0.0.10"
+version = "0.1.1"
 authors = [
     { name="Plads" },
 ]
