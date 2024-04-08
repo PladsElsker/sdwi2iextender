@@ -128,3 +128,5 @@ As shown in this code snipet, the `unrender` and `render` gradio functions can b
 I encourage you to look at the source code if you want to learn more about how to use this library!  
 
 You can also look at these extensions that use sdwi2iextender:
+- [Inpaint difference](https://github.com/John-WL/sd-webui-inpaint-difference)
+- [Inpaint background](https://github.com/John-WL/sd-webui-inpaint-background)
