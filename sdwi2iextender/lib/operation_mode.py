@@ -17,5 +17,5 @@ class OperationMode:
     def section(self, components: list):
         pass
 
-    def gradio_events(self, img2img_tabs: list):
+    def gradio_events(self, selected: gr.Checkbox):
         pass

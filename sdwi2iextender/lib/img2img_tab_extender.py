@@ -94,7 +94,7 @@ class Img2imgTabExtender:
             img2img_tabs = cls._get_img2img_tabs()
             cls.setup_navigation_events(img2img_tabs)
             for tab_data in cls.tab_data_list:
-                tab_data.tab_object.gradio_events(img2img_tabs, tab_data.selected)
+                tab_data.tab_object.gradio_events(tab_data.selected)
 
     @classmethod
     def register_default_amount_of_tabs(cls):
