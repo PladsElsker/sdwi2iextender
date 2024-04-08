@@ -75,6 +75,9 @@ class Img2imgTabExtender:
         cls.tab_data_list = []
         for tab_class in new_tab_classes:
             custom_tab_object = tab_class()
+<<<<<<< HEAD
+            cls.register_custom_tab_data(-1, tab_class, custom_tab_object, gr.Checkbox())
+=======
             tab_index = cls._get_current_amount_of_tabs()
             cls.register_custom_tab_data(tab_index, tab_class, custom_tab_object, gr.Checkbox())
     
@@ -84,7 +87,17 @@ class Img2imgTabExtender:
         for custom_tab in cls.tab_data_list:
             tab_class = custom_tab.tab_class
             custom_tab_object = custom_tab.tab_object
+>>>>>>> 4fe2074593c769273387b1d017734890c39d197c
 
+    @classmethod
+    def instantiate_custom_tabs(cls):
+        cls.register_default_amount_of_tabs()
+        for custom_tab in cls.tab_data_list:
+            tab_class = custom_tab.tab_class
+            custom_tab_object = custom_tab.tab_object
+            tab_index = cls._get_current_amount_of_tabs()
+            custom_tab.tab_index = tab_index
+            
             with GradioContextSwitch(cls.img2img_tabs_block):
                 custom_tab_object.tab()
             with GradioContextSwitch(cls.inpaint_params_block):
@@ -108,18 +121,19 @@ class Img2imgTabExtender:
     def setup_navigation_events(cls, img2img_tabs):
         padded_tab_data_list = [None] * cls.amount_of_default_tabs + cls.tab_data_list
         block_data_iterator = zip(img2img_tabs, padded_tab_data_list, strict=True)
-        for tab_block, custom_tab in block_data_iterator:
-            def update_func(custom_tab):
-                tab_class = getattr(custom_tab, 'tab_class', None)
-                should_show_inpaint_params = getattr(tab_class, 'show_inpaint_params', True)
-                update_inpaint_params = gr.update(visible=should_show_inpaint_params) if custom_tab is not None else gr.update()
-                offset = cls.amount_of_default_tabs
-                update_selected = [
-                    gr.update(value=custom_tab is not None and (i + offset)==custom_tab.tab_index) 
-                    for i in range(len(cls.tab_data_list))
-                ]
-                return update_inpaint_params, *update_selected
 
+        def update_func(custom_tab):
+            tab_class = getattr(custom_tab, 'tab_class', None)
+            should_show_inpaint_params = getattr(tab_class, 'show_inpaint_params', True)
+            update_inpaint_params = gr.update(visible=should_show_inpaint_params) if custom_tab is not None else gr.update()
+            offset = cls.amount_of_default_tabs
+            update_selected = [
+                gr.update(value=custom_tab is not None and (i + offset)==custom_tab.tab_index) 
+                for i in range(len(cls.tab_data_list))
+            ]
+            return update_inpaint_params, *update_selected
+        
+        for tab_block, custom_tab in block_data_iterator:
             func_dict = dict(
                 fn=functools.partial(update_func, custom_tab=custom_tab),
                 inputs=[],
