@@ -75,7 +75,7 @@ class Img2imgTabExtender:
         cls.tab_data_list = []
         for tab_class in new_tab_classes:
             custom_tab_object = tab_class()
-            cls.register_custom_tab_data(-1, tab_class, custom_tab_object, gr.Checkbox())
+            cls.register_custom_tab_data(-1, tab_class, custom_tab_object, gr.Checkbox(visible=False))
 
     @classmethod
     def instantiate_custom_tabs(cls):
