@@ -113,7 +113,11 @@ def activate_generation_component_injector():
 
 
 def add_nasty_patches():
-    print("[sdwi2iextender]", "Applying img2img patch")
+    print("[sdwi2iextender]", "\033[0;33mDevelopper warning:\033[0m")
+    print("[sdwi2iextender]", "\033[0;33m./modules/img2img.py is being recompiled at run time with a patch. Your debugger will not work in this file.\033[0m")
+    print("[sdwi2iextender]", "\033[0;33mIf you need debug tools in this file, disable all extensions that use the sdwi2iextender library.\033[0m")
+    print("[sdwi2iextender]", "\033[0;33mThis patch is temporary and will be removed when v1.9 will be released.\033[0m")
+
     import_patch = "import sdwi2iextender"
     code_patch = f"""
 if (script_instance := sdwi2iextender.get_script_class().img2img_instance) and (script_args := args[script_instance.args_from:script_instance.args_to]) and script_instance.should_intercept_generation(*script_args):
@@ -129,6 +133,10 @@ else:
 
     parsed_function = get_ast_function(parsed_module, "img2img")
     ast_if = get_ast_if_mode(parsed_function)
+    if ast_if is None: # Forge support
+        parsed_function = get_ast_function(parsed_module, "img2img_function")
+        ast_if = get_ast_if_mode(parsed_function)
+
     last_ast_if = get_last_ast_if(ast_if)
     last_ast_if.orelse[:] = ast.parse(code_patch).body[0:1]
     exec(compile(parsed_module, '<string>', 'exec'), img2img.__dict__)
@@ -137,12 +145,15 @@ else:
 def get_ast_function(parsed_object, function_name):
     res = [exp for exp in parsed_object.body if getattr(exp, 'name', None) == function_name]
     if not res:
-        raise RuntimeError(f'Cannot find function {function_name} in parsed ast')
+        return None
 
     return res[0]
 
 
 def get_ast_if_mode(parsed_img2img_function):
+    if parsed_img2img_function is None:
+        return None
+    
     for node in parsed_img2img_function.body:
         if not hasattr(node, "test"):
             continue
@@ -158,6 +169,9 @@ def get_ast_if_mode(parsed_img2img_function):
 
 
 def get_last_ast_if(ast_if):
+    if ast_if is None:
+        return None
+
     while(hasattr(ast_if, "orelse") and len(ast_if.orelse) == 1):
         ast_if = ast_if.orelse[0]
     
