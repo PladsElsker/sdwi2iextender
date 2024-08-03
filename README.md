@@ -7,10 +7,13 @@ This library suggests an implementation that uniformalizes the creation of new o
 
 ## Release notes
 ### 0.2.0
-- Bug fix for A1111 `V1.10`
-- Drop Forge support
+- **Bug fixes:**
+    - Fixed issue in A1111 `V1.10` where an anchor component was relocated, preventing custom tabs from being populated.
+- **Changes:**
+    - Dropped support for Forge. Starting from this version, sdwi2iextender will no longer support Forge. The reason is that Forge is no longer maintained to closely follow A1111 releases, making it increasingly demanding to maintain support. Forge may still work fine with `v0.1.3` for now, but it will not be actively maintained. 
 ### 0.1.3
-- Compatibility patch prioritizing support for Forge and A1111 `v1.8` and `v1.9`
+- **Changes:**
+    - Added a re-compilation patch that re-compiles the `img2img.py/img2img` function to support both A1111 `v1.8` and `v1.9`. As a side effect, this patch supports Forge as well. The developpment of Forge is in an uncertain state, so the next release of sdwi2iextender may drop Forge support. The next release of A1111, `v1.10`, will add many optimizations akin to Forge, making it less useful to support both UIs at the same time. 
 
 ## Install
 ```
