@@ -47,7 +47,7 @@ class Img2imgTabExtender:
 
     @classmethod
     def register_img2img_tabs_block(cls, component):
-        cls.img2img_tabs_block = component.parent.parent
+        cls.img2img_tabs_block = component.parent.parent.parent.parent
 
     @classmethod
     def register_inpaint_params_block(cls, component):

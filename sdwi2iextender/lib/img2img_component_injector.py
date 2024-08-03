@@ -2,13 +2,17 @@ import os
 import sys
 import gradio as gr
 import inspect
-import ast
 
 import modules.scripts as scripts
 from modules.scripts import ScriptClassData, scripts_data
 from modules import img2img
 
 from .one_time_callable import one_time_callable
+
+
+IMG2IMG_MODE_INDEX = 0
+IMG2IMG_INPAINT_OPERATION_MODE_INDEX = 2
+IMG2IMG_INIT_IMG_WITH_MASK_INDEX = 6
 
 
 @one_time_callable
@@ -113,66 +117,25 @@ def activate_generation_component_injector():
 
 
 def add_nasty_patches():
-    print("[sdwi2iextender]", "\033[0;33mDevelopper warning:\033[0m")
-    print("[sdwi2iextender]", "\033[0;33m./modules/img2img.py is being recompiled at run time with a patch. Your debugger will not work in this file.\033[0m")
-    print("[sdwi2iextender]", "\033[0;33mIf you need debug tools in this file, disable all extensions that use the sdwi2iextender library.\033[0m")
-    print("[sdwi2iextender]", "\033[0;33mThis patch is temporary and will be removed when v1.9 will be released.\033[0m")
+    IMG2IMG_ARGUMENT_COUNT = len(inspect.signature(img2img.img2img).parameters)
+    IMG2IMG_HIJACK_ARGUMENT_OFFSET = IMG2IMG_ARGUMENT_COUNT - 3
 
-    import_patch = "import sdwi2iextender"
-    code_patch = f"""
-if (script_instance := sdwi2iextender.get_script_class().img2img_instance) and (script_args := args[script_instance.args_from:script_instance.args_to]) and script_instance.should_intercept_generation(*script_args):
-    script_instance.resolve_image_and_mask(*script_args)
-    image = script_instance.image
-    mask = script_instance.mask
-else:
-    image = None
-    mask = None
-"""
-    parsed_module = ast.parse(inspect.getsource(img2img))
-    parsed_module.body[0:0] = ast.parse(import_patch).body[0:1]
+    original_img2img = img2img.img2img
 
-    parsed_function = get_ast_function(parsed_module, "img2img")
-    ast_if = get_ast_if_mode(parsed_function)
-    if ast_if is None: # Forge support
-        parsed_function = get_ast_function(parsed_module, "img2img_function")
-        ast_if = get_ast_if_mode(parsed_function)
+    def hijack_img2img(id_task: str, request: gr.Request, *args):
+        args = list(args)
+        all_scripts_args = args[IMG2IMG_HIJACK_ARGUMENT_OFFSET:]
 
-    last_ast_if = get_last_ast_if(ast_if)
-    last_ast_if.orelse[:] = ast.parse(code_patch).body[0:1]
-    exec(compile(parsed_module, '<string>', 'exec'), img2img.__dict__)
-
-
-def get_ast_function(parsed_object, function_name):
-    res = [exp for exp in parsed_object.body if getattr(exp, 'name', None) == function_name]
-    if not res:
-        return None
-
-    return res[0]
-
-
-def get_ast_if_mode(parsed_img2img_function):
-    if parsed_img2img_function is None:
-        return None
-    
-    for node in parsed_img2img_function.body:
-        if not hasattr(node, "test"):
-            continue
+        script_instance = SdwI2iExtenderScript.img2img_instance
+        script_args = all_scripts_args[script_instance.args_from:script_instance.args_to]
+        script_instance.resolve_image_and_mask(*script_args)
+        if script_instance.should_intercept_generation(*script_args):
+            args[IMG2IMG_MODE_INDEX] = IMG2IMG_INPAINT_OPERATION_MODE_INDEX
+            args[IMG2IMG_INIT_IMG_WITH_MASK_INDEX] = {
+                "image": script_instance.image,
+                "mask": script_instance.mask,
+            }
         
-        if not hasattr(node.test, "left"):
-            continue
+        return original_img2img(id_task, request, *args)
 
-        if not hasattr(node.test.left, "id"):
-            continue
-
-        if node.test.left.id == "mode":
-            return node
-
-
-def get_last_ast_if(ast_if):
-    if ast_if is None:
-        return None
-
-    while(hasattr(ast_if, "orelse") and len(ast_if.orelse) == 1):
-        ast_if = ast_if.orelse[0]
-    
-    return ast_if
+    img2img.img2img = hijack_img2img
