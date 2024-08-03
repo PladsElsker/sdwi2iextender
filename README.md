@@ -1,18 +1,18 @@
 # sdwi2iextender
-A python library to help create custom img2img operation modes in A1111. 
+A python library to help create custom img2img operation modes in A1111.  
 
-# Context
+## Context
 Conflicts can easily arise between different A1111 extensions when creating new operation modes in the img2img section.  
 This library suggests an implementation that uniformalizes the creation of new operation modes.  
 
-# Releases
+## Release notes
 ### 0.2.0
 - Bug fix for A1111 `V1.10`
 - Drop Forge support
 ### 0.1.3
 - Compatibility patch prioritizing support for Forge and A1111 `v1.8` and `v1.9`
 
-# Install
+## Install
 ```
 pip install sdwi2iextender
 ```
