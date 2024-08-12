@@ -24,7 +24,7 @@ This library suggests an implementation that uniformalizes the creation of new o
     - Added a re-compilation patch that re-compiles the `img2img.py/img2img` function to support both A1111 `v1.8` and `v1.9`. As a side effect, this patch supports Forge as well. The developpment of Forge is in an uncertain state, so the next release of sdwi2iextender may drop Forge support. The next release of A1111, `v1.10`, will add many optimizations akin to Forge, making it less useful to support both UIs at the same time. 
 
 ## Install
-As of `0.2.2`, the intended way to install the library is to enforce the latest version from an `install.py` script in a Webui extension:
+As of `0.2.2`, the intended way to install the library is to enforce the latest version from `install.py` scripts in extensions:
 ```py
 import launch
 
