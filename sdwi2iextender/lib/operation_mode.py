@@ -2,7 +2,10 @@ import gradio as gr
 
 
 class OperationMode:
-    """Operation mode base class for creating custom operation modes in the UI"""
+    """Operation mode base class for creating custom operation modes in the UI.
+    You may create a class that inherits this class to create a custom operation mode. 
+    Once created, operation modes need to be manually registered using the register_operation_mode() function. 
+    """
     
     show_inpaint_params = True
     """Set to false to hide generation parameters like in img2img or sketch tabs"""
