@@ -6,6 +6,9 @@ Conflicts can easily arise between different A1111 extensions when creating new 
 This library suggests an implementation that uniformalizes the creation of new operation modes.  
 
 ## Release notes
+### 0.2.2
+- **Changes:**
+    - Added a common install script to normalize the install and update procedure of the library. Using the new common install script is optional, but is strongly recommended. Updates to the library are relatively frequent (once every few months). Updating all the extensions that use the library to ensure they are using the latest version was time consuming. Another issue was that it was creating unnecessary commits and issues in the extension repositories, even though the issues are actually related the library itself because the API for custom operation modes has mostly remained unchanged for a while now. The new install script now checks if the library is installed, and forces an update if a new version is available. Forcing an update is probably not the best way to fix this. Custom cli args may be added to the Webui in a future update to allow the user to select a specific version of the library if needed. 
 ### 0.2.1
 - **Bug fixes:**
     - Fixed issue in A1111 `V1.10.1` where the `img2img > img2img` and `img2img > inpaint` operation modes would raise errors due to the script arguments not being passed to the pipeline. 
@@ -18,6 +21,18 @@ This library suggests an implementation that uniformalizes the creation of new o
     - Added a re-compilation patch that re-compiles the `img2img.py/img2img` function to support both A1111 `v1.8` and `v1.9`. As a side effect, this patch supports Forge as well. The developpment of Forge is in an uncertain state, so the next release of sdwi2iextender may drop Forge support. The next release of A1111, `v1.10`, will add many optimizations akin to Forge, making it less useful to support both UIs at the same time. 
 
 ## Install
+As of `0.2.2`, the intended way to install the library is to install it from an `install.py` script in a Webui extension:
+```py
+import launch
+
+if not launch.is_installed("sdwi2iextender"):
+    launch.run_pip(f"install sdwi2iextender", f"sdwi2iextender")
+
+from sdwi2iextender import sdwi2iextender_version_manager
+sdwi2iextender_version_manager.ensure_latest()
+```
+
+Alternatively, you can install it manually for testing purposes:
 ```
 pip install sdwi2iextender
 ```

@@ -5,7 +5,6 @@ import inspect
 
 import modules.scripts as scripts
 from modules.scripts import ScriptClassData, scripts_data
-from modules import img2img
 
 from .one_time_callable import one_time_callable
 
@@ -112,10 +111,7 @@ def register_SdwI2iExtenderScript():
 
 @one_time_callable
 def activate_generation_component_injector():
-    add_nasty_patches()
-
-
-def add_nasty_patches():
+    from modules import img2img
     IMG2IMG_ARGUMENT_COUNT = len(inspect.signature(img2img.img2img).parameters)
     IMG2IMG_HIJACK_ARGUMENT_OFFSET = IMG2IMG_ARGUMENT_COUNT - 3
 
