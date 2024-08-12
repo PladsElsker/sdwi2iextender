@@ -8,7 +8,7 @@ class OperationMode:
     """
     
     show_inpaint_params = True
-    """Set to false to hide generation parameters like in img2img or sketch tabs"""
+    """Set to false to hide generation parameters like the img2img or sketch tabs"""
 
     requested_elem_ids = []
     """List of gradio components to pass to the OperationMode.section() method to customize their behavior"""
