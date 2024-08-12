@@ -8,10 +8,10 @@ This library suggests an implementation that uniformalizes the creation of new o
 ## Release notes
 ### 0.2.1
 - **Bug fixes:**
-    - Fixed issue in A1111 `V1.10.1` where the `img2img > img2img` and `img2img > inpaint` operation modes would raise errors due to the script arguments not being passed to the pipeline. 
+    - Fixed issue in A1111 `v1.10.1` where the `img2img > img2img` and `img2img > inpaint` operation modes would raise errors due to the script arguments not being passed to the pipeline. 
 ### 0.2.0
 - **Bug fixes:**
-    - Fixed issue in A1111 `V1.10` where an anchor component was relocated, preventing custom tabs from being populated.
+    - Fixed issue in A1111 `v1.10` where an anchor component was relocated, preventing custom tabs from being populated.
     - Dropped support for Forge. Starting from this version, sdwi2iextender will no longer support Forge. The reason is that Forge is no longer maintained to closely follow A1111 releases, making it increasingly demanding to maintain support. Forge may still work fine with `v0.1.3` for now, but it will not be actively maintained. 
 ### 0.1.3
 - **Bug fixes:**
