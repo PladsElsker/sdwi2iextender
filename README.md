@@ -6,6 +6,9 @@ Conflicts can easily arise between different A1111 extensions when creating new 
 This library suggests an implementation that uniformalizes the creation of new operation modes.  
 
 ## Release notes
+### 0.2.1
+- **Bug fixes:**
+    - Fixed issue in A1111 `V1.10.1` where the `img2img > img2img` and `img2img > inpaint` operation modes would raise errors due to the script arguments not being passed to the pipeline. 
 ### 0.2.0
 - **Bug fixes:**
     - Fixed issue in A1111 `V1.10` where an anchor component was relocated, preventing custom tabs from being populated.

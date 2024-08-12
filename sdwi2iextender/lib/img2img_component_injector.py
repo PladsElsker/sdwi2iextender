@@ -76,12 +76,9 @@ class SdwI2iExtenderScript(scripts.Script):
     def should_intercept_generation(self, *args):
         from .img2img_tab_extender import Img2imgTabExtender
 
-        tab_id = self.get_tab_id(*args)
-        self.intercept_generation = tab_id >= Img2imgTabExtender.amount_of_default_tabs
+        return self.get_tab_id(*args) >= Img2imgTabExtender.amount_of_default_tabs
 
-        return self.intercept_generation
-
-    def resolve_image_and_mask(self, *args):
+    def get_image_mask_dict(self, *args):
         from .img2img_tab_extender import Img2imgTabExtender
 
         image_components = self.get_image_components(*args)
@@ -90,8 +87,10 @@ class SdwI2iExtenderScript(scripts.Script):
         init_images_index = (tab_id - Img2imgTabExtender.amount_of_default_tabs) * 2
         mask_index = init_images_index + 1
 
-        self.image = image_components[init_images_index]
-        self.mask = image_components[mask_index]
+        return {
+            "image": image_components[init_images_index],
+            "mask": image_components[mask_index],
+        }
 
     def get_data_components(self, *args):
         return args[:self.__image_components_start_at]
@@ -128,13 +127,9 @@ def add_nasty_patches():
 
         script_instance = SdwI2iExtenderScript.img2img_instance
         script_args = all_scripts_args[script_instance.args_from:script_instance.args_to]
-        script_instance.resolve_image_and_mask(*script_args)
         if script_instance.should_intercept_generation(*script_args):
             args[IMG2IMG_MODE_INDEX] = IMG2IMG_INPAINT_OPERATION_MODE_INDEX
-            args[IMG2IMG_INIT_IMG_WITH_MASK_INDEX] = {
-                "image": script_instance.image,
-                "mask": script_instance.mask,
-            }
+            args[IMG2IMG_INIT_IMG_WITH_MASK_INDEX] = script_instance.get_image_mask_dict(*script_args)
         
         return original_img2img(id_task, request, *args)
 
