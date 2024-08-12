@@ -6,6 +6,9 @@ Conflicts can easily arise between different A1111 extensions when creating new 
 This library suggests an implementation that uniformalizes the creation of new operation modes.  
 
 ## Release notes
+### 0.2.3
+- **Changes:**
+    - Added the updated version to the install logs when the Webui updates the library. 
 ### 0.2.2
 - **Changes:**
     - Added a common install script to normalize the install and update procedure of the library. Using the new common install script is optional, but is strongly recommended. Updates to the library are relatively frequent (once every few months). Updating all the extensions that use the library to ensure they are using the latest version was time consuming. Another issue was that it was creating unnecessary commits and issues in the extension repositories, even though the issues are actually related the library itself because the API for custom operation modes has mostly remained unchanged for a while now. The new install script now checks if the library is installed, and forces an update if a new version is available. Forcing an update is probably not the best way to fix this. Custom cli args may be added to the Webui in a future update to allow the user to select a specific version of the library if needed. 
