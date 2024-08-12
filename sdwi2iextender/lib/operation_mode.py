@@ -32,7 +32,7 @@ class OperationMode:
         """Method to create the UI for the inpaint parameters of the operation mode.
         
         Arguments:
-        components -- a list of gradio components that were requested using the "requested_elem_ids" class attribute
+        components -- a list of gradio components that were requested using the "requested_elem_ids" list
         """
         pass
 
