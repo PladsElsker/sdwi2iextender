@@ -42,6 +42,6 @@ class OperationMode:
         Arguments:
         selected -- a hidden gradio checkbox that checks itself when the current operation mode is selected
 
-        You may use the checkbox events to manage the state of the new gradio components depending on if the operation mode is selected or not. 
+        You may use the checkbox events to show/hide gradio components depending on if the operation mode is selected or not. 
         """
         pass
