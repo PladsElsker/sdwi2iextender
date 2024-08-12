@@ -11,7 +11,7 @@ class sdwi2iextender_version_manager:
             _, latest = get_package_versions("sdwi2iextender")
             assert latest is not None, "Unable to update sdwi2iextender because the latest version cannot not be found"
             
-            launch.run_pip(f"install sdwi2iextender=={latest}", f"sdwi2iextender")
+            launch.run_pip(f"install sdwi2iextender=={latest}", f"sdwi2iextender=={latest}")
 
 
 def is_latest(package_name):
