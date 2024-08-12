@@ -29,7 +29,7 @@ class OperationMode:
         gr.TabItem(label="", visible=False)
 
     def section(self, components: list):
-        """Method to create the inpaint parameters UI of the operation mode.
+        """Method to create the UI for the inpaint parameters of the operation mode.
         
         Arguments:
         components -- a list of gradio components that were requested using the "requested_elem_ids" class attribute
