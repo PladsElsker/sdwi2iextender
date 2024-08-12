@@ -18,6 +18,7 @@ class OperationMode:
     
     def image_components(self):
         """Method to instantiate the image-mask pair for image generation. 
+        The generation pipeline will use the image and the mask provided here when the operation mode is selected. 
         This method must return a tuple of gradio image components (image, mask). 
         It is recommended to unrender and re-render the image components in the OperationMode.tab() method. 
         """
